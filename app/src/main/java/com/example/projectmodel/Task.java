@@ -190,7 +190,7 @@ public class Task {
         RequestBody body = RequestBody.create(JSON, jsonBody.toString());
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/completions")
-                .header("Authorization", "Bearer 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")
+                .header("Authorization", "Bearer ")
                 .post(body)
                 .build();
 
