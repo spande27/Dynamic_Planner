@@ -29,32 +29,10 @@
         </item>
     </group>
 
-    <item
-        android:title="">
-        <menu>
-            <item
-                android:id="@+id/nav_account"
-                android:icon="@drawable/nav_account"
-                android:title="Account"/>
-            <item
-                android:id="@+id/nav_about"
-                android:icon="@drawable/nav_about"
-                android:title="About Us"/>
-            <item
-                android:id="@+id/nav_contact"
-                android:icon="@drawable/nav_contact"
-                android:title="Contact Us"/>
-            <item
-                android:id="@+id/nav_privacy"
-                android:icon="@drawable/nav_privacypolicy"
-                android:title="Privacy Policy"/>
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/nav_logout"
-                android:title="Logout"/>
 
-        </menu>
 
-    </item>
+
+
+
 
 </menu>

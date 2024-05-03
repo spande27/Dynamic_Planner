@@ -49,27 +49,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
 
 
-
-//        userNameTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Replace the fragment with AccountFragment
-////             **   getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
-//                // Close the drawer (optional)
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//            }
-//        });
-//
-//        userEmailTextView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Replace the fragment with AccountFragment
-//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
-//                // Close the drawer (optional)
-//                drawerLayout.closeDrawer(GravityCompat.START);
-//            }
-//        });
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -97,20 +76,6 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             startActivity(Intent.createChooser(shareIntent, "Share App"));
         } else if (itemId == R.id.nav_help) {
            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HelpFragment()).commit();
-        } else if (itemId == R.id.nav_account) {
-          //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
-        } else if (itemId == R.id.nav_about) {
-           getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
-        } else if (itemId == R.id.nav_contact) {
-          getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ContactFragment()).commit();
-        } else if (itemId == R.id.nav_privacy) {
-          getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new PrivacyFragment()).commit();
-        } else if (itemId == R.id.nav_logout) {
-
-//            Toast.makeText(this, "Logout Successfully!", Toast.LENGTH_SHORT).show();
-//            Intent loginIntent = new Intent(DashboardActivity.this, LoginActivity.class);
-//            startActivity(loginIntent);
-//            finish(); // Optional: finish the current activity to prevent going back to it
         }
         drawerLayout.closeDrawer(GravityCompat.START); // Minimize the side menu
         return true;

@@ -222,14 +222,14 @@ public class AddTaskFragment extends Fragment {
         task.setTitle(title);
         task.setDate(date);
         task.setTime_time(time);
-        task.setNear_activity();
+
 
         if(isEdit)
         {
             editTask.setTitle(title);
             editTask.setDate(date);
             editTask.setTime_time(time);
-            editTask.setNear_activity();
+
 
             dao.editTask(editTask, success -> {
                 if (success) {

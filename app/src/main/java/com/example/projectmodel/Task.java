@@ -31,7 +31,8 @@ public class Task {
     private String time_time;
 
     public static final MediaType JSON = MediaType.get("application/json");
-    public static final  String promp="Answer must be in format of minute or hour only. You will be provided with a task in to do list, and your task is to tell how much approximate time it will take to complete the task.";
+    public static final  String promp="Give answer in format of minute or hour only. You will be provided with a task in to do list, and your task is to tell how much approximate time it will take to complete the task.";
+    public static final String promp2="You will be provided with a task in to do list, and your task is to categories it among Downstairs, Jogging, Sitting, Standing, Upstairs, Walking. Do not include word Category";
     OkHttpClient client = new OkHttpClient();
 
     public Task() {
@@ -66,7 +67,16 @@ public class Task {
     {
         this.title=taskname;
         String prompt=promp+"User:"+taskname;
-        callAPI(prompt);
+        callAPI_ApproxTime(prompt);
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        String prompt2=promp2+"User:"+taskname;
+        callAPI_NearestActivity(prompt2);
 
     }
 
@@ -93,8 +103,8 @@ public class Task {
 
     // Nearest Activity
 
-    public String setNear_activity() {
-        return  this.near_activity = "Sample";
+    public String setNear_activity(String activity) {
+        return  this.near_activity = activity;
     }
 
     public String getNear_activity() {
@@ -172,7 +182,7 @@ public class Task {
         return "Key:"+key+" name:"+title;
     }
 
-    public void callAPI(String question) {
+    public void callAPI_ApproxTime(String question) {
         System.out.println("callAPI Entry");
         String estimatedTime = "";
 
@@ -190,7 +200,7 @@ public class Task {
         RequestBody body = RequestBody.create(JSON, jsonBody.toString());
         Request request = new Request.Builder()
                 .url("https://api.openai.com/v1/completions")
-                .header("Authorization", "Bearer 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")
+//                .header("Authorization", "Bearer sk-proj-YNSNGzkkfI28i5sfKgBeT3BlbkFJWVok5MeB1mb3fzA653wS")
                 .post(body)
                 .build();
 
@@ -222,6 +232,58 @@ public class Task {
         });
 
         System.out.println("callAPI Out");
+    }
+
+    public void callAPI_NearestActivity(String question) {
+        System.out.println("callAPINearestActivity Entry");
+        String estimatedTime = "";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("model", "gpt-3.5-turbo-instruct");
+            jsonBody.put("prompt", question);
+            jsonBody.put("max_tokens", 4000);
+            jsonBody.put("temperature", 0);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return; // Exit the method if JSON creation fails
+        }
+
+        RequestBody body = RequestBody.create(JSON, jsonBody.toString());
+        Request request = new Request.Builder()
+                .url("https://api.openai.com/v1/completions")
+//                .header("Authorization", "Bearer sk-proj-YNSNGzkkfI28i5sfKgBeT3BlbkFJWVok5MeB1mb3fzA653wS")
+                .post(body)
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                System.out.println("Failed to load response callAPINearestActivity due to  " + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) {
+                        System.out.println("Failed to load response callAPINearestActivity due to " + response.body().string());
+                        return;
+                    }
+                    String responseData = responseBody.string();
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    JSONArray jsonArray = jsonObject.getJSONArray("choices");
+                    String estimatedActivity = jsonArray.getJSONObject(0).getString("text");
+                    setNear_activity(estimatedActivity.trim());
+
+
+                    System.out.println("In Response callAPINearestActivity time: " + estimatedActivity.trim());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        System.out.println("callAPI callAPINearestActivity Out");
     }
 
 }
